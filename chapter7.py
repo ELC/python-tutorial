@@ -905,7 +905,7 @@ def enviar_email(email, asunto, contenido="", archivo=None):
 
     mime = MIMEMultipart() 
     
-    mime['asunto'] = asunto
+    mime['Subject'] = asunto
     mime['From'] = 'Email Enviado automáticamente con Python'
     mime['To'] = email
   
@@ -916,7 +916,7 @@ def enviar_email(email, asunto, contenido="", archivo=None):
             base = MIMEBase('application', 'octet-stream') 
             base.set_payload(attachment.read()) 
             encoders.encode_base64(base) 
-            base.add_header('contenido-Disposition', f"attachment; archivos= {archivo}") 
+            base.add_header('Content-Disposition', f"attachment; filename= {archivo}") 
             mime.attach(base) 
 
     context = ssl.create_default_context()
