@@ -4,9 +4,8 @@
 
 
 ####################################################
-# 5.1 Constructor y Métodos de instancia
+# 5.1 Inicializador y Métodos de instancia
 ####################################################
-
 
 from __future__ import annotations
 
@@ -65,24 +64,34 @@ art3.id_     # => 3
 # 5.3 Dataclasses
 ####################################################
 
-from dataclasses import dataclass   # Biblioteca Estándar
+
+from typing import ClassVar
+from dataclasses import dataclass, field
+import uuid
 
 class Persona:
-    def __init__(self, nombre: str, edad: int, sexo: str,
-                 peso: float, altura: float) -> None:
-        self.nombre: str = nombre
-        self.edad: int = edad
-        self.sexo: str = sexo
-        self.peso: float = peso
-        self.altura: float = altura
+    _dni: int = 0
+
+    def __init__(self, nombre: str, edad: int, altura: float, propiedades: Optional[List[str]] = None) -> None:
+        self.nombre = nombre
+        self.edad = edad
+        self.altura = altura
+        self.propiedades = propiedades or []
+        self.id_socio = f"{nombre[0].upper()}-{str(uuid.uuid4())[:8]}"
+        self.dni = str(Persona._get_next_dni()).zfill(8)
 
     def es_mayor_edad(self) -> bool:
         return self.edad >= 17
 
+    @classmethod
+    def _get_next_dni(cls) -> int:
+        cls._dni += 1
+        return cls._dni
 
-juan: Persona = Persona("Juan", 18, "H", 85, 175.9)
+
+juan: Persona = Persona("Juan", 18, 175.9)
 juan.es_mayor_edad()  # => True
-Persona("Julia", 16, "M", 65, 162.4).es_mayor_edad()  # => False
+Persona("Julia", 16, 162.4).es_mayor_edad()  # => False
 print(juan)  # => <__main__.Persona object at 0x000001C90BBF8688>
 
 
@@ -93,30 +102,47 @@ class PersonaDataClass:
     sexo: str
     peso: float
     altura: float
+    propiedades: List[str] = field(default_factory=list)
+    id_socio: str = field(init=False)
+    dni: str = field(init=False)
+    _dni: ClassVar[int] = 0
+
+    def __post_init__(self):
+        self.id_socio: str = f"{self.nombre[0].upper()}-{str(uuid.uuid4())[:8]}"
+        self.dni = str(PersonaDataClass._get_next_dni()).zfill(8)
 
     def es_mayor_edad(self) -> bool:
         return self.edad >= 18
+
+    @classmethod
+    def _get_next_dni(cls) -> int:
+        cls._dni += 1
+        return cls._dni
 
 
 pedro: PersonaDataClass = PersonaDataClass("Pedro", 18, "H", 85, 175.9)
 pedro.es_mayor_edad()  # => True
 PersonaDataClass("Julia", 16, "M", 65, 162.4).es_mayor_edad()  # => False
-print(pedro) # => PersonaDataClass(nombre='Pedro', edad=18, sexo='H', peso=85, altura=175.9)
+print(pedro) # => PersonaDataClass(nombre='Pedro', edad=18, sexo='H', peso=85, altura=175.9, propiedades=[], id_socio='P-f642581c', dni='00000001')
 
 
 ####################################################
 # 5.4 Sobrecarga de Operadores
 ####################################################
 
+
 # Referencia: https://docs.python.org/3/reference/datamodel.html#basic-customization
 
-from typing import List, Optional  # Biblioteca Estándar
+from typing import List, Optional  
 
+@dataclass
 class Article:
-    def __init__(self, name: str) -> None:
-        self.name = name
+    name: str
 
-    def __eq__(self, other: Article) -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Article):
+            raise NotImplementedError()
+
         return self.name == other.name
 
     def __hash__(self) -> int:
@@ -129,36 +155,28 @@ class Article:
         return f"Article('{self.name}')"
 
 
+@dataclass
 class ShoppingCart:
-    def __init__(self, articles: List[Article] = None) -> None:
-        if articles is None:
-            self.articles = []
-        else:
-            self.articles = articles
+    articles: List[Article] = field(default_factory=list)
 
     def add(self, article: Article) -> ShoppingCart:
         self.articles.append(article)
         return self
 
     def remove(self, remove_article: Article) -> ShoppingCart:
-        new_articles = []
-
-        for article in self.articles:
-            if article != remove_article:
-                new_articles.append(article)
-
-        self.articles = new_articles
-
+        self.articles = [article for article in self.articles if article != remove_article]
         return self
 
-    def __eq__(self, other: ShoppingCart) -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, ShoppingCart):
+            raise NotImplementedError()
         return set(self.articles) == set(other.articles)
 
     def __str__(self) -> str:
-        return str([str(i) for i in self.articles])
+        return str(self.articles)
 
     def __repr__(self) -> str:
-        return f"ShoppingCart({[art for art in self.articles]})"
+        return f"ShoppingCart({self.articles})"
 
     def __add__(self, other: ShoppingCart) -> ShoppingCart:
         return ShoppingCart(self.articles + other.articles)
@@ -173,34 +191,79 @@ str(ShoppingCart().add(manzana).add(pera))  # => ['Manzana', 'Pera']
 
 # Test de reproducibilidad
 carrito = ShoppingCart().add(manzana).add(pera)
-carrito == eval(repr(carrito))  # => True
+assert carrito == eval(repr(carrito))
 print(repr(carrito))  # => ShoppingCart([Article('Manzana'), Article('Pera')])
 
 # Test de igualdad
-ShoppingCart().add(manzana) == ShoppingCart().add(manzana)  # => True
+assert ShoppingCart().add(manzana) == ShoppingCart().add(manzana)  # => True
 print(ShoppingCart().add(manzana))  # => ['Manzana']
 
 # Test de remover objeto
-ShoppingCart().add(tv).add(pera).remove(tv) == ShoppingCart().add(pera)  # => True
+assert ShoppingCart().add(tv).add(pera).remove(tv) == ShoppingCart().add(pera)  # => True
 print(ShoppingCart().add(tv).add(pera).remove(tv))  # => ['Pera']
 
 # Test de igualdad con distinto orden
-ShoppingCart().add(tv).add(pera) == ShoppingCart().add(pera).add(tv)  # => True
+assert ShoppingCart().add(tv).add(pera) == ShoppingCart().add(pera).add(tv)  # => True
 print(ShoppingCart().add(tv).add(pera))  # => ['Television', 'Pera']
 
 # Test de suma
 combinado = ShoppingCart().add(manzana) + ShoppingCart().add(pera)
-combinado == ShoppingCart().add(manzana).add(pera)  # => True
+assert combinado == ShoppingCart().add(manzana).add(pera)  # => True
 print(combinado)  # => ['Manzana', 'Pera']
 
 
 ####################################################
-# 5.5 Propiedades y Copia Profunda
+# 5.5 Instancias como Functiones (__call__)
 ####################################################
 
 
 @dataclass
-class Articulo:
+class Acumulador:
+    valor_inicial: Union[int, float] = 0
+    valor: Union[int, float] = field(init=False)
+
+    def __post_init__(self):
+        self.valor = self.valor_inicial
+
+    def incrementar(self, valor: Union[int, float]) -> None:
+        self.valor += valor
+
+
+acumulador_1 = Acumulador()
+acumulador_1.incrementar(5)
+acumulador_1.incrementar(10)
+acumulador_1.incrementar(-2)
+
+assert acumulador_1.valor == 13 
+
+@dataclass
+class AcumuladorAlternativo:
+    valor_inicial: Union[int, float] = 0
+    valor: Union[int, float] = field(init=False)
+
+    def __post_init__(self):
+        self.valor = self.valor_inicial
+
+    def __call__(self, valor: Union[int, float]) -> None:
+        self.valor += valor
+
+acumulador_2 = AcumuladorAlternativo()
+acumulador_2(5)
+acumulador_2(10)
+acumulador_2(-2)
+
+assert acumulador_2.valor == 13
+
+
+####################################################
+# 5.6 Propiedades y Copia Profunda
+####################################################
+
+
+# Referencia: https://docs.python.org/3/library/copy.html
+
+@dataclass
+class Producto:
     _nombre: str
     _precio: float
 
@@ -223,31 +286,31 @@ class Articulo:
 
 from copy import deepcopy           # Biblioteca Estandar
 
-def actualizar_precio(articulos: List[Articulo], porcentaje_aumento: float) -> List[Articulo]:
-    nuevos = []
-    for articulo in deepcopy(articulos):
-        articulo.precio *= 1 + porcentaje_aumento / 100
-        nuevos.append(articulo)
+def actualizar_precio(productos: List[Producto], porcentaje_aumento: float) -> List[Producto]:
+    nuevos: List[Producto] = []
+    for producto in deepcopy(productos):
+        producto.precio *= 1 + porcentaje_aumento / 100
+        nuevos.append(producto)
     return nuevos
 
 
 nombres = ["sábana", "parlante", "computadora", "tasa", "botella", "celular"]
 precios = [10.25, 5.258, 350.159, 25.99, 18.759, 215.231]
 
-articulos = [Articulo(nombre, precio)
+productos = [Producto(nombre, precio)
              for nombre, precio in zip(nombres, precios)]
 porcentaje_aumento = 10
 
-articulos_actualizados: List[Articulo] = actualizar_precio(articulos, porcentaje_aumento)
-precios_desactualizados: List[float] = [articulo.precio for articulo in articulos]
-precios_actualizados: List[float] = [articulo.precio for articulo in articulos_actualizados]
+productos_actualizados: List[Producto] = actualizar_precio(productos, porcentaje_aumento)
+precios_desactualizados: List[float] = [producto.precio for producto in productos]
+precios_actualizados: List[float] = [producto.precio for producto in productos_actualizados]
 
-precios_desactualizados  # => [10.25, 5.26, 350.16, 25.99, 18.76, 215.23]
-precios_actualizados     # => [11.28, 5.79, 385.18, 28.59, 20.64, 236.75]
+print(precios_desactualizados)  # => [10.25, 5.26, 350.16, 25.99, 18.76, 215.23]
+print(precios_actualizados)     # => [11.28, 5.79, 385.18, 28.59, 20.64, 236.75]
 
 
 ####################################################
-# 5.5 Herencia
+# 5.7 Herencia
 ####################################################
 
 
@@ -274,70 +337,227 @@ print(terrier.descripcion())  # => Soy un perro y tengo 8 años
 
 
 ####################################################
-# 5.5 Clases y Métodos abstractos
+# 5.8 Constructor (__new__)
 ####################################################
 
-from abc import ABC, abstractmethod
 
 @dataclass
-class Objeto(ABC):
-    id_: int
+class Auto:
+    velocidad_maxima: float
+    precio: float
+
+    def __new__(cls, velocidad_maxima: float, precio: float) -> Auto:
+        
+        if velocidad_maxima >= 300:
+            auto = super().__new__(AutoDeportivo)
+        elif precio >= 100_000:
+            auto = super().__new__(AutoLujoso)
+        else:
+            auto = super().__new__(cls)
+        
+        auto.velocidad_maxima = velocidad_maxima
+        auto.precio = precio
+        return auto
+
+
+class AutoLujoso(Auto):
+    ...
+
+
+class AutoDeportivo(Auto):
+    ...
+
+
+auto_familiar = Auto(170, 3_000)
+auto_formula1 = Auto(370, 5_000_000)
+auto_famoso = Auto(250, 500_000)
+
+assert isinstance(auto_familiar, Auto)
+assert isinstance(auto_formula1, Auto)
+assert isinstance(auto_famoso, Auto)
+assert isinstance(auto_formula1, AutoDeportivo)
+assert isinstance(auto_famoso, AutoLujoso)
+
+
+####################################################
+# 5.8 Clases y Métodos abstractos
+####################################################
+
+
+# Referencia: https://docs.python.org/3/library/abc.html
+
+from abc import ABC, abstractmethod
+from typing import final  #  Python 3.8+
+
+@dataclass
+class Item(ABC):
+    _id: ClassVar[int]
+    id_: int = field(init=False)
     _nombre: str
+
+    def __post_init__(self):
+        self.id_ = self.__class__._get_next_id()
+
+    @classmethod
+    @abstractmethod
+    def _get_next_id(cls) -> int:
+        ...
 
     @abstractmethod
     def mostrar_id(self) -> str:
-        return str(self.id_)
+        ...
 
     @property
     @abstractmethod
     def nombre(self) -> str:
-        return self._nombre.capitalize()
+        ...
 
     @nombre.setter
+    @abstractmethod
     def nombre(self, value: str) -> None:
-        self._nombre = value
+        ...
 
-class Ropa(Objeto):
-    pass
+    @final
+    def descripcion(self) -> str:
+        return f"ID: {self.id_} - Nombre: {self.nombre}"
 
-class Material(Objeto):
+@dataclass
+class Ropa(Item):
+    ...
 
+@dataclass
+class Material(Item):
+    _id: ClassVar[int] = 0
+    id_: int = field(init=False)
+    _nombre: str
+
+    @classmethod
+    def _get_next_id(cls) -> int:
+        cls._id += 1
+        return cls._id
+
+    @property
     def nombre(self) -> str:
         return self._nombre
     
+    @nombre.setter
+    def nombre(self, value: str) -> None:
+        self._nombre = value
+    
     def mostrar_id(self) -> str:
-        return super().mostrar_id()
+        return str(self.id_).zfill(10)
+
+@dataclass
+class MaterialLujoso(Material):
+
+    def descripcion(self) -> str:
+        return f'{super().descripcion()} - Material de Lujo'
 
 
-# objeto = Objeto(10, "Objeto")       # => Error
-# objeto = Ropa(10, "Camisa")         # => Error
-objeto = Material(10, "Madera")
-print(objeto)  # => Material(id_=10, _nombre='Madera')
+# item = Item("Item")                         # => Error
+# item = Ropa("Camisa")                       # => Error
+item_lujoso = MaterialLujoso("Formula 1")     # => Sin Error - Warning en la declaración
+print(item_lujoso.descripcion())
 
-issubclass(type(objeto), Objeto)     # => True
-issubclass(type(objeto), Material)   # => True
-isinstance(objeto, Objeto)           # => True
-isinstance(objeto, Material)         # => True
+item = Material("Madera")
+print(item)  # => Material(id_=1, _nombre='Madera')
+
+assert issubclass(type(item), Item)
+assert issubclass(type(item), Material)
+assert isinstance(item, Item)
+assert isinstance(item, Material)
 
 
 ####################################################
-# 5.6 Sobrecarga de Métodos - Python 3.8+
+# 5.9 Interfaces (Protocols)
 ####################################################
 
-from functools import singledispatchmethod   # Biblioteca Estandar
+
+from typing import Protocol
+
+
+class Identificable(Protocol):
+    @property
+    def nombre(self) -> str: 
+        ...
+    
+    @property
+    def id_(self) -> int:
+        ...
+
+
+def get_datos_resumen(objeto: Identificable):
+    return f"{objeto.id_} - {objeto.nombre}"
+
+
+madera = Material("Madera")
+
+resumen = get_datos_resumen(madera)  # No hay Warning de Tipos
+                                     # Incluso si Material no hereda de Identificable
+                                     # Incluso si id_ no es una property
+                                     # Incluso si
+
+
+####################################################
+# 5.10 Sobrecarga de Métodos
+####################################################
+
+
+from typing import overload, Sequence
+
+@overload
+def duplicar(x: int) -> int:
+    ...
+
+@overload
+def duplicar(x: Sequence[int]) -> list[int]:
+    ...
+
+def duplicar(x: int | Sequence[int]) -> int | list[int]:
+    if isinstance(x, Sequence):
+        return [i * 2 for i in x]
+    return x * 2
+
+assert duplicar(2) == 4                  # Sin Warning
+assert duplicar([1, 2, 3]) == [2, 4, 6]  # Sin Warning
+
+
+####################################################
+# 5.11 Sobrecarga de Métodos - Caso Especial - Python 3.8+
+####################################################
+
+
+from typing import Union
 
 @dataclass
 class Empleado:
     sueldo: float
 
+    def calcular_sueldo(self, impuesto: Union[int, float]) -> float:
+        if isinstance(impuesto, int) or impuesto >= 1:
+            return self.sueldo - impuesto
+
+        return self.sueldo * (1 - impuesto)
+
+
+personal_limpieza_1 = Empleado(10_000)
+
+
+from functools import singledispatchmethod   # Biblioteca Estandar
+
+@dataclass
+class EmpleadoAlternativo:
+    sueldo: float
+
     @singledispatchmethod
-    def calcular_sueldo(self, impuesto):
-        raise NotImplementedError
+    def calcular_sueldo(self, impuesto: float) -> float:
+        raise NotImplementedError()
+
 
     @calcular_sueldo.register
     def _(self, impuesto: float) -> float:
         if impuesto >= 1:
-            raise ValueError
+            return self.sueldo - impuesto
         return self.sueldo * (1 - impuesto)
 
     @calcular_sueldo.register
@@ -345,46 +565,81 @@ class Empleado:
         return self.sueldo - impuesto
 
 
-personal_limpieza = Empleado(10_000)
-personal_limpieza.calcular_sueldo(1500)   # => 8500
-personal_limpieza.calcular_sueldo(0.1)    # => 9000.0
+personal_limpieza_2 = EmpleadoAlternativo(10_000)
+assert personal_limpieza_2.calcular_sueldo(1500) == 8_500
+assert personal_limpieza_2.calcular_sueldo(0.1) == 9_000
 
-from typing import Optional
+assert personal_limpieza_1.calcular_sueldo(1500) == personal_limpieza_2.calcular_sueldo(1500)
+assert personal_limpieza_1.calcular_sueldo(0.1) == personal_limpieza_2.calcular_sueldo(0.1)
+
+
+####################################################
+# 5.12 Mixins (Herencia Múltiple)
+####################################################
+
+
+import json
+from typing import Any
+
+
+class JsonSerializer:
+
+    def to_json(self) -> str:
+        return json.dumps(vars(self))
+
+    def from_json(self, json_string: str) -> Any:
+        return json.loads(json_string)
+
 
 @dataclass
-class EmpleadoAlternativo:
-    sueldo: float
-    ventas: Optional[float] = None
-    comision: Optional[float] = None
-
-    def calcular_sueldo(self, impuesto: Optional[float]=None, 
-                              con_comision: bool=False) -> float:
-        if impuesto is None and con_comision is False:
-            return self.sueldo
-        
-        sueldo: float = self.sueldo
-
-        if con_comision and self.ventas is not None and self.comision is not None:
-            sueldo += self.ventas * self.comision
-        
-        if impuesto is not None:
-            if impuesto >= 1:
-                sueldo -= impuesto
-            else:
-                sueldo *= (1 - impuesto)
-        
-        return sueldo
+class EmpleadoBaseDeDatos(EmpleadoAlternativo, JsonSerializer):
+    tabla: str
 
 
-manager = EmpleadoAlternativo(15_000)
-manager.calcular_sueldo()       # => 15000
-manager.calcular_sueldo(1500)   # => 13500
-manager.calcular_sueldo(0.2)    # => 12000
+personal_limpieza_2 = EmpleadoBaseDeDatos(10_000, "Empleados")
 
-vendedor = EmpleadoAlternativo(15_000, ventas=7000, comision=0.05)
-vendedor.calcular_sueldo()                                   # => 15000
-vendedor.calcular_sueldo(1500)                               # => 13500
-vendedor.calcular_sueldo(0.2)                                # => 12000
-vendedor.calcular_sueldo(1500, True)                         # => 13850
-vendedor.calcular_sueldo(con_comision=True)                  # => 15350
-vendedor.calcular_sueldo(impuesto=1500, con_comision=True)   # => 13850
+assert personal_limpieza_2.to_json() == '{"sueldo": 10000, "tabla": "Empleados"}'
+
+
+####################################################
+# 5.13 Descriptores
+####################################################
+
+
+class Positivo:
+
+    def __set_name__(self, _: Any, nombre: str) -> None:
+        self.nombre_atributo: str = f"_{nombre}"
+
+    def __get__(self, objeto: Any, _: Any = None) -> Union[float, int]:
+        return getattr(objeto, self.nombre_atributo)  # type: ignore
+
+    def __set__(self, objeto: Any, valor: Union[float, int]) -> None:
+        if valor < 0:
+            raise ValueError(f"{self.nombre_atributo} debe ser positivo")
+
+        setattr(objeto, self.nombre_atributo, valor)
+
+
+class Celcius:
+
+    def __get__(self, instancia: Any, _: Any = None) -> float:
+        return (instancia.farenheit - 32) * 5 / 9
+
+    def __set__(self, instancia: Any, valor: float) -> None:
+        instancia.farenheit = 32 + valor * 9 / 5
+
+
+@dataclass
+class MaterialExperimento:
+    masa: float = Positivo()
+    temperatura: float = Celcius()
+
+
+concreto_armado = MaterialExperimento(masa=50, temperatura=100)
+assert concreto_armado.masa == 50
+assert concreto_armado.temperatura == 100
+assert concreto_armado.farenheit == 212     # Warning pero no Error
+
+
+#oxigeno = MaterialExperimento(masa=-21, -30)  # Error -> ValueError: _masa debe ser positivo
