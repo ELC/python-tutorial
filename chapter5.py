@@ -61,7 +61,35 @@ art3.id_     # => 3
 
 
 ####################################################
-# 5.3 Dataclasses
+# 5.3 Métodos estáticos
+####################################################
+
+
+class Temperatura:
+
+    def __init__(self, region: str, temperatura: float) -> None:
+        self.region = region
+        self.temperatura = temperatura
+
+    @staticmethod
+    def celcius_a_farenheit(temperatura: float) -> float:  # Sin self
+        return 32 + temperatura * 9 / 5
+
+    @staticmethod
+    def farenheit_a_celcius(temperatura: float) -> float:  # Sin self
+        return (temperatura - 32) * 5 / 9
+
+
+temperatura_hoy = Temperatura("Mesopotamia", 35)
+
+assert Temperatura.celcius_a_farenheit(35) == 95      # Invocación desde clase
+assert Temperatura.farenheit_a_celcius(95) == 35      # Invocación desde clase
+assert temperatura_hoy.celcius_a_farenheit(35) == 95  # Invocación desde instancia
+assert temperatura_hoy.farenheit_a_celcius(95) == 35  # Invocación desde instancia
+
+
+####################################################
+# 5.4 Dataclasses
 ####################################################
 
 
@@ -127,7 +155,7 @@ print(pedro) # => PersonaDataClass(nombre='Pedro', edad=18, sexo='H', peso=85, a
 
 
 ####################################################
-# 5.4 Sobrecarga de Operadores
+# 5.5 Sobrecarga de Operadores
 ####################################################
 
 
@@ -213,7 +241,7 @@ print(combinado)  # => ['Manzana', 'Pera']
 
 
 ####################################################
-# 5.5 Instancias como Functiones (__call__)
+# 5.6 Instancias como Functiones (__call__)
 ####################################################
 
 
@@ -256,7 +284,7 @@ assert acumulador_2.valor == 13
 
 
 ####################################################
-# 5.6 Propiedades y Copia Profunda
+# 5.7 Propiedades y Copia Profunda
 ####################################################
 
 
@@ -310,7 +338,7 @@ print(precios_actualizados)     # => [11.28, 5.79, 385.18, 28.59, 20.64, 236.75]
 
 
 ####################################################
-# 5.7 Herencia
+# 5.8 Herencia
 ####################################################
 
 
@@ -337,7 +365,7 @@ print(terrier.descripcion())  # => Soy un perro y tengo 8 años
 
 
 ####################################################
-# 5.8 Constructor (__new__)
+# 5.9 Constructor (__new__)
 ####################################################
 
 
@@ -380,7 +408,7 @@ assert isinstance(auto_famoso, AutoLujoso)
 
 
 ####################################################
-# 5.8 Clases y Métodos abstractos
+# 5.10 Clases y Métodos abstractos
 ####################################################
 
 
@@ -469,7 +497,7 @@ assert isinstance(item, Material)
 
 
 ####################################################
-# 5.9 Interfaces (Protocols)
+# 5.11 Interfaces (Protocols)
 ####################################################
 
 
@@ -499,7 +527,7 @@ resumen = get_datos_resumen(madera)  # No hay Warning de Tipos
 
 
 ####################################################
-# 5.10 Sobrecarga de Métodos
+# 5.12 Sobrecarga de Métodos
 ####################################################
 
 
@@ -523,7 +551,7 @@ assert duplicar([1, 2, 3]) == [2, 4, 6]  # Sin Warning
 
 
 ####################################################
-# 5.11 Sobrecarga de Métodos - Caso Especial - Python 3.8+
+# 5.13 Sobrecarga de Métodos - Caso Especial - Python 3.8+
 ####################################################
 
 
@@ -574,7 +602,7 @@ assert personal_limpieza_1.calcular_sueldo(0.1) == personal_limpieza_2.calcular_
 
 
 ####################################################
-# 5.12 Mixins (Herencia Múltiple)
+# 5.14 Mixins (Herencia Múltiple)
 ####################################################
 
 
@@ -602,7 +630,7 @@ assert personal_limpieza_2.to_json() == '{"sueldo": 10000, "tabla": "Empleados"}
 
 
 ####################################################
-# 5.13 Descriptores
+# 5.15 Descriptores
 ####################################################
 
 
