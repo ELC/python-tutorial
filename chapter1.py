@@ -1,42 +1,42 @@
 ####################################################
-# 1. Tipos de datos primitivos y operadores.
+# 1. Primitive data types and operators.
 ####################################################
 
-# Comentarios de una línea comienzan con una almohadilla (o numeral)
+# One-line comments begin with a hash (or numeral).
 
-""" Strings multilinea pueden escribirse
-    usando tres ", y comunmente son usados
-    como comentarios.
+""" Multi-line strings can be written
+    using three ", and are commonly used as comments.
+    as comments.
 """
 
 
 ####################################################
-# 1.1 Aritmética
+# 1.1 Arithmetic Operations
 ####################################################
 
 
 1 + 1       # => 2
 8 - 1       # => 7
 10 * 2      # => 20
-5 ** 2      # => 25   Potencia
-pow(5, 2)   # => 25   Potencia
-25 ** 0.5   # => 5    Raiz con Potencia fraccionaria
-35 / 5      # => 7.0  División (devuelve float)
+5 ** 2      # => 25   Power
+pow(5, 2)   # => 25   Power
+25 ** 0.5   # => 5    Root with Fractional Power
+35 / 5      # => 7.0  Division (returns float)
 35 / 0      # =>      Error
-34 // 5     # => 6    División entera (trunca el cociente)
-35 % 6      # => 5    Operador Módulo (resto)
-3 * 2.0     # => 6.0  Si uno de los operandos es float, el resultado es float
+34 // 5     # => 6    Integer division (truncates the quotient)
+35 % 6      # => 5    Modulo operator (remainder)
+3 * 2.0     # => 6.0  If one of the operands is float, result is float
 
 
 ####################################################
-# 1.2 Lógica
+# 1.2 Logic
 ####################################################
 
-# Valores 'boolean' (booleanos) son primitivos
+# boolean values are primitive
 True
 False
 
-# Operadores booleanos nativos
+# Native boolean operators
 
 # not
 not True          # => False
@@ -54,7 +54,7 @@ True or False     # => True
 False or True     # => True
 False or False    # => False
 
-# Cortocircuito por defecto
+# Default Short Circuit
 True and False and 1 / 0   # => False
 True and True and 1 / 0    # => Error
 False or True or 1 / 0     # => True
@@ -62,10 +62,10 @@ False or False or 1 / 0    # => Error
 
 
 ####################################################
-# 1.3 Operadores de Comparación
+# 1.3 Comparison Operators
 ####################################################
 
-# Operadores básicos
+# Basic operators
 1 == 1     # => True
 1 != 1     # => False
 1 < 10     # => True
@@ -73,7 +73,7 @@ False or False or 1 / 0    # => Error
 2 <= 2     # => True
 2 >= 2     # => True
 
-# Comparaciones Combinadas
+# Combined Comparisons
 1 < 2 < 3          # => True
 1 < 3 < 2          # => False
 1 < 0 < 1 / 0      # => False (cortocircuito)
@@ -82,35 +82,35 @@ False or False or 1 / 0    # => Error
 
 
 ####################################################
-# 1.4 Cadena de caracteres (Strings)
+# 1.4 Character string (Strings)
 ####################################################
 
-# Strings se crean con ", ' o """"
-"Esto es un string."
-'Esto también es un string.'
+# Strings are created with ", ', """" or '''
+'This is a string."
+'This is also a string.'
 
-"""Las strings con triple 
-comillas pueden ser multilinea"""  # Se inserta un \n al final de la línea
+"""Strings with triple 
+quotes can be multi-line""" # A \n is inserted at the end of each line.
 
-"Hola " + "mundo!"       # => "Hola mundo!" Concatenación
-"Hola " "mundo!"         # => "Hola mundo!" Concatenación Automática
-"Esto es un string"[0]   # => 'E' String como Lista
+"Hello " + "world!"       # => "Hello world!" Concatenation
+"Hello " "world!"         # => "Hello world!" Automatic Concatenation
+"This is a string"[0]     # => 'E' String as List
 
-# Formateo de Strings con format
-nombre = "Ezequiel"
-precio = 12.50
-descuento = 0.8
-comida = "lasaña"
-"{} debe pagar {}$".format(nombre, precio)  # => "Ezequiel debe pagar 12.50$"
-"{0} no vino, {0} se fue, {0} debe aún {1}$".format(nombre, precio * descuento) # => "Ezequiel no vino, Ezequiel se fue, Ezequiel debe aún 10$"
-"{nombre} quiere comer {comida}".format(comida=comida, nombre="Bob")  # => "Bob quiere comer lasaña"
+# Formatting Strings with format
+name = "Ezekiel"
+price = 12.50
+discount = 0.8
+food = "lasagna"
+"{} must pay {}$".format(name, price)  # => "Ezequiel must pay $12.50"
+"{0} didn't come, {0} left, {0} still owes {1}$".format(name, price * discount) # => "Ezekiel didn't come, Ezekiel left, Ezekiel still owes $10."
+"{name} wants to eat {food}".format(food=food, name="Bob") # => "Bob wants to eat lasagna."
 
-# Formateo de Strings con f-Strings
-f'{nombre} quiere comer {comida}'  # => "Ezequiel quiere comer lasaña"
+# Formatting Strings with f-Strings.
+f'{name} wants to eat {food}'  # => "Ezekiel wants to eat lasagna"
 
 
 ####################################################
-# 1.5 Objeto None
+# 1.5 Object None
 ####################################################
 
 True is None    # => False
@@ -119,7 +119,7 @@ None is None    # => True
 
 
 ####################################################
-# 1.6 Valores interpretados como booleanos
+# 1.6 Values interpreted as Booleans
 ####################################################
 
 bool(0)     # => False
@@ -131,7 +131,7 @@ bool("a")   # => True
 bool([])    # => False
 bool([3])   # => True
 
-# Los valores anteriores pueden usarse como booleanos
+# The above values can be used as booleans
 
 not "1"     # => False
 not []      # => True
@@ -154,14 +154,14 @@ not []      # => True
 
 
 ####################################################
-# 1.7 Conversiones númericas de base
+# 1.7 Numeric base conversions
 ####################################################
 
 # Decimal
 str(10)           # => 10
 int("10")         # => 10
 
-# Binario
+# Binary
 bin(10)           # => '0b1010'
 int("0b1010", 2)  # => 10
 int("1010", 2)    # => 10
@@ -174,13 +174,13 @@ int("12", 8)      # => 10
 # Hexadecimal
 hex(10)           # => '0xa'
 int("0xa", 16)    # => 10
-int("0xA", 16)   < # => 10
+int("0xA", 16)    # => 10
 int("a", 16)      # => 10
 int("A", 16)      # => 10
 
 
 ####################################################
-# 1.7 Conversiones de string
+# 1.7 String conversions
 ####################################################
 
 chr(65)    # => "A"
