@@ -45,3 +45,6 @@ import source.controller.controller as controller
 # => You successfully imported controller.py
 
 print(f'The value of {controller.name=}') # => The value of controller.name='controller'
+
+
+# Continue reading in chapter6/source/chapter6_2.py

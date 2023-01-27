@@ -32,3 +32,5 @@ import config.db_config.migrations as migrations
 # Prints omitted
 import source.util as util
 import source.controller.controller as controller
+
+# Continue reading in chapter6/source/controller/chapter6_3.py
