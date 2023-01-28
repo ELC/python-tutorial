@@ -180,7 +180,16 @@ Topics to add:
 - [TypedDict](https://docs.python.org/3/library/typing.html#typing.TypedDict)
 - [Secrets module](https://docs.python.org/3/library/secrets.html)
 
-### 8. Appendices
+
+### 8. Python Ecosystem
+
+This is a special no-code chapter that consists of an infography showing which
+are the most popular libraries depending on the field. Raging from Web
+Development to Data Science and QA Automation. 
+
+The image is high resolution to comfortably zooming in.
+
+### 9. Appendices
 
 Topics to add:
 
