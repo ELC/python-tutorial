@@ -1,72 +1,81 @@
-# Introducción - Entorno y Sugerencias
+# Introduction - Environment and Tips
 
-## Instalar Python
+## Install Python
 
-### Versión de Python
+### Python Version
 
-![versiones de Python](python_versions.png)
+![Python versions](python_versions.png)
 
-Source: https://devguide.python.org/#status-of-python-branches
-
-Versiones anteriores: https://devguide.python.org/devcycle/#end-of-life-branches
-
-## Software a Instalar
-
-- Instalar Anaconda: https://www.anaconda.com/products/individual
-
-- Instalar una fuente con ligatures (recomendada Fira Code): https://github.com/tonsky/FiraCode/wiki/Installing
-
-- Instalar Visual Studio Code (VS Code): https://code.visualstudio.com/
-
-- Elegir un Tema cómodo a los ojos (recomendado Monokai Pro y Gruvbox Dark)
-
-![VS Code Temas](vscode_themes.png)
+Source: https://devguide.python.org/versions/#versions
 
 
-### Extensiones Recomendadas para VS Code:
+## Software to Install
 
-- Python (aprox 25.2M Descargas)
+- Install [PyEnv](https://github.com/pyenv/pyen), a tool that will manage
+  different Python versions. (Windows users may use
+  [PyEnv-Win](https://github.com/pyenv-win/pyenv-win))
+- Install Visual Studio Code (VS Code): https://code.visualstudio.com/
+- Choose a confortable theme to your liking. 
 
-- vscode-icons (6.1M Descargas)
+My recommendations in no particular order are (left to right in image below):
 
-- Code Runner (aprox 4.9M Descargas)
+- Dark+ (Installed with VS Code)
+- [Gruvbox](https://marketplace.visualstudio.com/items?itemName=jdinhlife.gruvbox)
+- [Monokai Pro](https://marketplace.visualstudio.com/items?itemName=monokai.theme-monokai-pro-vscode)
 
-- Python-autopep8 (206K Descargas)
+![VS Code Themes](vscode_themes.png)
 
-- Pyright (51K Descargas)
+- Choose a confortable font (potentially with ligatures).
 
-- Polacode-2020 (25K Descargas)
+My recommendations in no particular order are (left to right in image below):
 
-Theme Recomendado (Personal): **Monokai Pro** o **Gruvbox**
+- Consolas (Default font for VS Code)
+- [Cascadia Code](https://github.com/microsoft/cascadia-code)
+- [Fira Code](https://github.com/tonsky/FiraCode)
+- [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono)
+- [OpenDyslexic](https://opendyslexic.org/)
 
-## Configuración Custom de VS Code (settings.json):
+![VS Code Fonts](vscode_fonts.png)
 
-- Usar CMD en lugar de Powershell:
 
-      "terminal.integrated.shell.windows": "C:\\WINDOWS\\Sysnative\\cmd.exe"
+### Recommended Extensions for VS Code:
 
-- Reglas para guia
+Must Have:
 
-      "editor.rulers": [79, 120]
+- [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python): Language Support
+- [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance): Automatic Type Checking
+- [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens): Git with batteries
+- [VS Code Icons](https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons): Nicer Icons
 
-- Habilitar ligaduras (Sólo con Fira Code o similar)
+Optional
+- [LiveServer](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer): For live serving HTML/CSS/JS
+- [Polacode](https://marketplace.visualstudio.com/items?itemName=jeff-hykin.polacode-2019): Easy screenshots of code with same style as editor
+- [WakaTime](https://marketplace.visualstudio.com/items?itemName=WakaTime.vscode-wakatime): To track time based on project and language
+- [SQLite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite): Useful Database Viewer for SQLite
+- [ThunderClient](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client): Postman-replacement for API Testing
+
+
+## Custom VS Code configuration (settings.json):
+
+- Enable AutoSave
+
+      "files.autoSave": "afterDelay"
+
+- Make sure that Pylance is checking your types:
+
+      "python.analysis.typeCheckingMode": "strict"
+
+
+- Rules for guide
+
+      "editor.rulers": [79, 120].
+
+- Enable ligatures (Only with Fira Code or similar).
 
       "editor.fontLigatures": true
 
+- Move the activity bar to the right (personal choice)
 
-## Capítulos
-
-### 1. Tipos de datos primitivos y operadores.
-### 2. Variables y Colecciones
-### 3. Control de Flujo
-### 4. Funciones
-### 5. Classes
-### 6. Módulos y estructura de imports
-### 7. Aspectos avanzados del lenguaje
-### 8. Recursos adicionales
-### 9. Apéndices
+      "workbench.sideBar.location": "right"
 
 
-## Fuente
-
-Tutorial adaptado de https://learnxinyminutes.com/docs/es-es/python-es/
