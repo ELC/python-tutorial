@@ -82,7 +82,7 @@ all(some_list)  # => True | Returns True if all the elements are True
 
 
 ####################################################
-# 2.2 Tuples - Tuples, immutable collections
+# 2.2 Tuples, immutable collections
 ####################################################
 
 some_tuple = (1, 2, 3)  # They are defined with (,) instead of []

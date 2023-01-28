@@ -804,7 +804,7 @@ assert function_count.runs == 10 # Warning Unknown attribute
 
 
 ####################################################
-## 7.6.1 Stateful Decorators
+## 7.6.2 Stateful Decorators
 ####################################################
 
 
