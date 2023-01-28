@@ -75,6 +75,11 @@ Topics covered:
 - Numeric base conversions
 - String conversions to Unicode
 
+Topics to add:
+- [Complex numeric type](https://docs.python.org/3/library/functions.html#complex)
+- [Bytes and Bytesarray](https://docs.python.org/3/library/stdtypes.html#binary-sequence-types-bytes-bytearray-memoryview)
+- [Bitwise Operations](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types)
+
 ### 2. Variables and Collections
 
 Topics covered:
@@ -84,6 +89,10 @@ Topics covered:
 - Unpacking
 - Dictionaries - Key-Value Collections
 - Sets | Collections without duplicates
+
+Topics to add:
+- [Fronzenset](https://docs.python.org/3/library/stdtypes.html#frozenset)
+- Recursive Collections
 
 ### 3. Control Flow
 
@@ -106,6 +115,11 @@ Topics covered:
 - Common higher-order functions (map, filter reduce)
 - Comprehensions
 
+Topics to add:
+- [Ellipsis Object](https://docs.python.org/3/library/constants.html#Ellipsis)
+- Dictionary and Set Comprehensions
+- [Functools](https://docs.python.org/3/library/functools.html)
+
 ### 5. Classes
 
 Topics covered:
@@ -125,6 +139,9 @@ Topics covered:
 - Method Overloading
 - Mixins (Multiple Inheritance)
 - Descriptors
+
+Topics to add:
+- [Generics](https://docs.python.org/3/library/stdtypes.html#generic-alias-type)
 
 ### 6. Modules and Imports Structure
 
@@ -159,9 +176,18 @@ Topics covered:
 - Standard Library Pearls - Serialization
 - Standard Library Pearls - Emails
 
+Topics to add:
+- [TypedDict](https://docs.python.org/3/library/typing.html#typing.TypedDict)
+- [Secrets module](https://docs.python.org/3/library/secrets.html)
+
 ### 8. Appendices
 
+Topics to add:
+
 - Caveats of dealing with floats (WIP)
+- Type Theory (Bounds, Covariant, Contravariant, Unions)
+- Metaprogramming and self-modifying code
+- MultiParadigm Programming
 
 
 ## Feedback and Contact
