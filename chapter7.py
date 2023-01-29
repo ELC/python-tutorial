@@ -36,13 +36,15 @@ from __future__ import annotations
 from dataclasses import dataclass, astuple
 from collections import namedtuple
 
+
 @dataclass
 class Vector:
     x: float
     y: float
 
     def modulo(self) -> float:
-        return (self.x**2 + self.y**2)**0.5
+        return (self.x**2 + self.y**2) ** 0.5
+
 
 origin = Vector(0, 0)
 origin.x                # => 0
@@ -60,13 +62,14 @@ assert origin.modulo() == 5
 
 # Using frozen=True
 
+
 @dataclass(frozen=True)
 class VectorImmutable:
     x: float
     y: float
 
     def modulo(self) -> float:
-        return (self.x**2 + self.y**2)**0.5
+        return (self.x**2 + self.y**2) ** 0.5
 
 
 origin = VectorImmutable(0, 0)
@@ -85,10 +88,11 @@ assert origin.modulo() == 0
 # Using collections.namedtuple
 
 
-VectorAlternate = namedtuple('VectorAlternate', ['x', 'y'])
+VectorAlternate = namedtuple("VectorAlternate", ["x", "y"])
+
 
 def modulo_without_types(vector: VectorAlternateVector) -> float:
-    return (vector.x**2 + vector.y**2)**0.5 # Warning for not knowing types.
+    return (vector.x**2 + vector.y**2) ** 0.5  # Warning for not knowing types.
 
 
 point = VectorAlternate(3, 4)
@@ -108,19 +112,20 @@ assert modulo_without_types(point) == 5
 
 from typing import NamedTuple
 
+
 class VectorAlternativeTyped(NamedTuple):
     x: float
     y: float
 
     def modulo(self) -> float:
-        return (self.x**2 + self.y**2)**0.5
+        return (self.x**2 + self.y**2) ** 0.5
 
 
 def typed_modulo_1(vector: VectorAlternativeTyped) -> float:
-    return (vector.x**2 + vector.y**2)**0.5
+    return (vector.x**2 + vector.y**2) ** 0.5
 
 
-typed_point_1_str = VectorAlternativeTyped("1", "1") # Warning String != Float
+typed_point_1_str = VectorAlternativeTyped("1", "1")  # Warning String != Float
 
 typed_point_1 = VectorAlternativeTyped(3, 4)
 typed_point_1.x                  # => 3
@@ -136,10 +141,13 @@ assert typed_modulo_1(typed_point_1) == 5
 
 # Using NamedTuple as a function
 
-VectorAlternativeTyped_2 = NamedTuple("VectorAlternativeTyped_2", [('x', float), ('y', float)])
+VectorAlternativeTyped_2 = NamedTuple(
+    "VectorAlternativeTyped_2", [("x", float), ("y", float)]
+)
+
 
 def typed_modulo_2(vector: VectorAlternativeTyped_2) -> float:
-    return (vector.x**2 + vector.y**2)**0.5
+    return (vector.x**2 + vector.y**2) ** 0.5
 
 
 typed_point_2 = VectorAlternativeTyped_2(3, 4)
@@ -147,7 +155,7 @@ typed_point_2.x                  # => 1
 typed_point_2.x                  # => 1
 print(typed_point_2)             # => VectorAlternate(x=1, y=1)
 x, y = typed_point_2             # => x=1, y=1
-# typed_point_2.x = 1     # => Error
+# typed_point_2.x = 1            # => Error
 
 assert typed_point_2[0] == 3
 assert typed_point_2[1] == 4
@@ -205,7 +213,7 @@ student_grade["Peter"].append(3)
 student_grade["Mary"].append(8)
 student_grade["Peter"].append(7)
 
-assert student_grade == {'Peter': [8, 3, 7], 'Mary': [9, 8]}
+assert student_grade == {"Peter": [8, 3, 7], "Mary": [9, 8]}
 
 
 ####################################################
@@ -247,6 +255,7 @@ from typing import Literal
 
 PermissionsA = Literal["ADMIN", "EDITOR", "USER"]
 
+
 class PermissionsAlternative:
     @staticmethod
     def has_access_control_panel_2(permission: PermissionsA) -> bool:
@@ -269,6 +278,7 @@ from dataclasses import dataclass
 class Person:
     name: str
 
+
 employee_1 = Person("John")
 employee_1.name           # => John
 # employee_1["name"]      # => Error - Cannot use keys with dataclasses
@@ -279,8 +289,8 @@ employee_1.age = 24       # => No Error - Monkey Patching - NOT RECOMMENDED
 
 employee_2 = {}
 employee_2["name"] = "John"
-employee_2["name"]        # => Juan
-#employee_2.name          # => Error - Cannot access values using .
+employee_2["name"]        # => John
+# employee_2.name         # => Error - Cannot access values using .
 
 
 # Using SimpleNameSpace
@@ -299,6 +309,7 @@ employee_3.name = "John"  # => No Error - Not Mokey Patching - Correct Usage
 from dataclasses import field
 
 from typing import Any
+
 
 class Employee(SimpleNamespace):
     def __setitem__(self, key: str, value: Any) -> None:
@@ -326,6 +337,7 @@ assert employee_4["age"] == 24
 
 from typing import Generator, Iterator, List
 
+
 def fibonacci_generator() -> Generator[int, None, None]:
     last: int = 1
     current: int = 1
@@ -335,6 +347,7 @@ def fibonacci_generator() -> Generator[int, None, None]:
     while True:
         current, last = last + current, current
         yield current
+
 
 generator = fibonacci_generator()
 fibonacci_10_first: List[int] = []
@@ -392,20 +405,23 @@ assert primes_smaller_than_25 == [2, 3, 5, 7, 11, 13, 17, 19, 23]
 from dataclasses import dataclass, field
 from typing import List
 
+
 @dataclass
 class PrimesSmallerThan:
     number: int
     current_number: int = 1
     visited: List[int] = field(default_factory=list)
 
-    def __iter__(self):   # Required for use in For
+    def __iter__(self):  # Required for use in For
         return self
 
-    def __next__(self):   # Necessary for function next
+    def __next__(self):  # Necessary for function next
         while True:
             self.current_number += 1
-            no_is_prime = any(self.current_number % possible_divisor == 0 
-                                    for possible_divisor in self.visited)
+            no_is_prime = any(
+                self.current_number % possible_divisor == 0
+                for possible_divisor in self.visited
+            )
             
             if self.current_number >= self.number:
                 raise StopIteration()
@@ -444,6 +460,7 @@ assert primes_smaller_than_25 == [2, 3, 5, 7, 11, 13, 17, 19, 23]
 
 from typing import Generator, Any
 
+
 def accumulate() -> Generator[float, float, None]:
     accumulator = 0
     while True:
@@ -463,13 +480,15 @@ assert accumulator_result == 29
 
 ## Use Case
 
+
 def processing_deferred() -> Generator[Any, Any, Any]:
     data = yield
-    print(f"Processing data... - {data}")     # Replace with complex process
+    print(f"Processing data... - {data}")  # Replace with complex process
     processed_data = str(data)
     new_data = yield processed_data
     print(f"Processing data... - {new_data}")  # Replace with complex process
     yield "Done"
+
 
 semicoroutine_deferred: Generator[Any, Any, Any] = processing_deferred()
 next(semicoroutine_deferred)  # Initialize
@@ -494,6 +513,7 @@ from typing import Tuple
 
 # Defining corrutines
 
+
 async def processing_db() -> int:   # Async modifier
     print("DB: Sending database query")
     await asyncio.sleep(1)          # Similar behavior to yield 
@@ -501,6 +521,7 @@ async def processing_db() -> int:   # Async modifier
     await asyncio.sleep(3)
     print("DB: Saving Results")
     return 0
+
 
 async def responding_api() -> int:
     print("API: Requesting data from user")
@@ -514,17 +535,21 @@ async def responding_api() -> int:
     print("API: Receiving confirmation")
     return 1
 
+
 # Serial Execution of Corrutines
+
 
 async def main_serial() -> Tuple[int, int]:
     result_db = await processing_db()
     result_api = await responding_api()
     return (result_db, result_api)
 
+
 async def main_serial_inverted() -> Tuple[int, int]:
     result_api = await responding_api()
     result_db = await processing_db()
     return (result_api, result_db)
+
 
 print(f"Started: {time.strftime('%X')}") 
 results: Tuple[int, int] = asyncio.run(main_serial())
@@ -560,15 +585,18 @@ assert results == (1, 0)
 
 # Concurrent execution of Tasks (Tasks)
 
+
 async def main_task() -> Tuple[int, int]:
     db_task = asyncio.create_task(processing_db())
     api_task = asyncio.create_task(responding_api())
     return (await db_task, await api_task)
 
+
 async def main_task_inverted() -> Tuple[int, int]:
     api_task = asyncio.create_task(responding_api())
     db_task = asyncio.create_task(processing_db())
     return (await api_task, await db_task)
+
 
 print(f"Started: {time.strftime('%X')}") 
 results = asyncio.run(main_task())
@@ -605,11 +633,14 @@ assert results == (1, 0)
 
 # Concurrent Execution of Corrutines (Gather)
 
+
 async def main_gather() -> Tuple[int, int]:
     return await asyncio.gather(processing_db(), responding_api())
 
+
 async def main_gather_inverted() -> Tuple[int, int]:
     return await asyncio.gather(responding_api(), processing_db())
+
 
 print(f"Started: {time.strftime('%X')}") 
 results = asyncio.run(main_gather())
@@ -653,11 +684,14 @@ import time
 import asyncio
 from typing import List
 
+
 def wait() -> None:
     time.sleep(1)
 
+
 def main_blocking() -> List[None]:
     return [wait() for _ in range(10)]
+
 
 async def main_blocking_async():
     loop = asyncio.get_running_loop()
@@ -695,8 +729,8 @@ assert results_blocking_async == [None] * 10
 import time
 from typing import Tuple, Any
 
-def measure_time(function: Callable[..., Any]) -> Callable[..., Tuple[Any, float]]:
 
+def measure_time(function: Callable[..., Any]) -> Callable[..., Tuple[Any, float]]:
     def helper(*args: Any, **kargs: Any) -> Tuple[Any, float]:
         """Helper function"""
         start: float = time.perf_counter()
@@ -728,11 +762,11 @@ import math
 slow_function_with_time = measure_time(slow_function)
 result, run_time = slow_function_with_time()
 
-assert result == 'Hello world'
+assert result == "Hello world"
 assert math.isclose(run_time, 2, abs_tol=0.1)
 
 assert slow_function.__name__ == "slow_function"
-assert slow_function_with_time.__name__ == "helper"          # Undesirable
+assert slow_function_with_time.__name__ == "helper"  # Undesirable
 assert slow_function_with_time.__doc__ == "Helper function"  # Not Desired
 
 
@@ -740,8 +774,10 @@ assert slow_function_with_time.__doc__ == "Helper function"  # Not Desired
 
 from functools import wraps
 
-def measure_time_alternative(function: Callable[..., Any]) -> Callable[..., Tuple[Any, float]]:
 
+def measure_time_alternative(
+    function: Callable[..., Any]
+) -> Callable[..., Tuple[Any, float]]:
     @wraps(function)
     def helper(*args: Any, **kargs: Any) -> Tuple[Any, float]:
         start: float = time.perf_counter()
@@ -760,28 +796,31 @@ def measure_time_alternative(function: Callable[..., Any]) -> Callable[..., Tupl
 slow_function_with_time = measure_time_alternative(slow_function)
 result, execution_time = slow_function_with_time()
 
-assert result == 'Hello world'
+assert result == "Hello world"
 assert math.isclose(execution_time, 2, abs_tol=0.1)
 
 assert slow_function.__name__ == "slow_function"
-assert slow_function_with_time.__name__ == "slow_function"     # Desirable
+assert slow_function_with_time.__name__ == "slow_function"  # Desirable
 assert slow_function_with_time.__doc__ == "Original function"  # Desirable
 
 
 # Invocation with decorator
+
 
 @measure_time_alternative
 def function_slow_measure():
     time.sleep(2)
     return "Hello world"
 
+
 result, execution_time = function_slow_measure()
 
-assert result == 'Hello world'
+assert result == "Hello world"
 assert math.isclose(execution_time, 2, abs_tol=0.1)
 
 
 # Stateful decorator
+
 
 def count_runs(function: Callable[..., Any]) -> Callable[..., Any]:
     @wraps(function)
@@ -789,18 +828,20 @@ def count_runs(function: Callable[..., Any]) -> Callable[..., Any]:
         helper.runs += 1
         return function(*args, **kwargs)
     
-    helper.runs = 0 # Warning - Monkey Patching - NOT RECOMMENDED
+    helper.runs = 0  # Warning - Monkey Patching - NOT RECOMMENDED
 
     return helper
+
 
 @count_runs
 def function_count() -> str:
     return "Hello world"
 
+
 for _ in range(10):
     function_count()
 
-assert function_count.runs == 10 # Warning Unknown attribute
+assert function_count.runs == 10  # Warning Unknown attribute
 
 
 ####################################################
@@ -810,6 +851,7 @@ assert function_count.runs == 10 # Warning Unknown attribute
 
 from dataclasses import dataclass
 from typing import Callable
+
 
 @dataclass
 class Counter:
@@ -825,19 +867,22 @@ class Counter:
 def function_counted_class():
     return "Hello world"
 
+
 for _ in range(10):
     function_counted_class()
 
-assert function_counted_class.runs == 10 # No Warning
+assert function_counted_class.runs == 10  # No Warning
 
 
 # Use cases - Cache and Memoization Manual
+
 
 @Counter
 def fibonacci(number: int) -> int:
     if number < 2:
         return number
     return fibonacci(number - 1) + fibonacci(number - 2)
+
 
 result = fibonacci(20)
 assert result == 6765
@@ -870,7 +915,7 @@ def fibonacci_memo(number: int) -> int:
 
 result = fibonacci_memo(20)
 assert result == 6765
-assert fibonacci_memo.runs == 39 # 500 times fewer runs
+assert fibonacci_memo.runs == 39  # 500 times fewer runs
 
 
 # Use cases - Cache and Memoization LRU
@@ -879,16 +924,18 @@ from functools import lru_cache
 
 # Reference: https://docs.python.org/3/library/functools.html#functools.lru_cache
 
+
 @Counter
-@lru_cache(maxsize=None) # Equivalent to @cache in Python 3.9+
+@lru_cache(maxsize=None)  # Equivalent to @cache in Python 3.9+
 def fibonacci_lru(number: int) -> int:
     if number < 2:
         return number
     return fibonacci_lru(number - 1) + fibonacci_lru(number - 2)
 
+
 result = fibonacci_lru(20)
 assert result == 6765
-assert fibonacci_memo.runs == 39 # 500 times fewer runs
+assert fibonacci_memo.runs == 39  # 500 times fewer runs
 
 
 ####################################################
@@ -907,6 +954,7 @@ from dataclasses import dataclass
 from typing import IO, Optional, Any
 import time
 
+
 @dataclass
 class Timer:
     start: float = 0
@@ -924,11 +972,12 @@ class Timer:
         self.elapsed = round(self.end - self.start, 3)
         return True
 
+
 with Timer() as tempo:
     time.sleep(5)
     raise ValueError
 
-print(tempo) # => Timer(start=0.1141484, end=5.1158644, elapsed=5.002, exception=True)
+print(tempo)  # => Timer(start=0.1141484, end=5.1158644, elapsed=5.002, exception=True)
 
 assert math.isclose(tempo.elapsed, 5, abs_tol=0.1)
 assert tempo.exception == True
@@ -943,18 +992,19 @@ assert tempo.exception == True
 from contextlib import contextmanager
 import time
 
+
 @contextmanager
 def timer():
     internal_data = {
         "start": time.perf_counter(),
         "end": -1,
         "elapsed": None,
-        "exception": False
+        "exception": False,
     }
     try:
         yield internal_data
     except ValueError:
-        internal_data['exception'] = True
+        internal_data["exception"] = True
     finally:
         internal_data['end'] = time.perf_counter()
         internal_data['elapsed'] = round(internal_data['end'] - internal_data['start'], 3)
@@ -964,7 +1014,7 @@ with timer() as tempo:
     time.sleep(5)
     raise ValueError()
 
-print(tempo) # => Timer(start=0.1141484, end=5.1158644, elapsed=5.002, exception=True)
+print(tempo)  # => Timer(start=0.1141484, end=5.1158644, elapsed=5.002, exception=True)
 
 assert math.isclose(tempo["elapsed"], 5, abs_tol=0.1)
 assert tempo["exception"] == True
@@ -978,13 +1028,13 @@ import tempfile
 from typing import IO, Any
 
 temporary_file: IO[Any] = tempfile.TemporaryFile()
-temporary_file.write(b'Hello world!')
+temporary_file.write(b"Hello world!")
 temporary_file.seek(0)
-temporary_file.read()      # => b'Hello world!'
+temporary_file.read()  # => b'Hello world!'
 temporary_file.close()
 
-with tempfile.TemporaryFile() as temporary_file: # Automatic closing
-    temporary_file.write(b'Hello world!')
+with tempfile.TemporaryFile() as temporary_file:  # Automatic closing
+    temporary_file.write(b"Hello world!")
     temporary_file.seek(0)
     temporary_file.read()  # => b'Hello world!'
 
@@ -1004,19 +1054,19 @@ try:
 except sqlite3.OperationalError as exception:
     connection.rollback()
 
-connection.close()    # Close the connection 
+connection.close()  # Close the connection
 
 
 # With Context Manager
 
 connection: sqlite3.Connection = sqlite3.connect(":memory:")
 try:
-    with connection:    # Automatic Commit and Rollback
+    with connection:  # Automatic Commit and Rollback
         connection.execute("select * from Person")
 except sqlite3.OperationalError as exception:
     pass
 
-connection.close()      # Close the connection
+connection.close()  # Close the connection
 
 
 # Close automatically
@@ -1025,7 +1075,7 @@ from contextlib import closing
 
 connection: sqlite3.Connection = sqlite3.connect(":memory:")
 try:
-    with closing(connection):   # Commit, Rollback and Close Automatically.
+    with closing(connection):  # Commit, Rollback and Close Automatically.
         connection.execute("select * from Person")
 except sqlite3.OperationalError as exception:
     pass
@@ -1036,8 +1086,8 @@ except sqlite3.OperationalError as exception:
 from contextlib import suppress
 
 connection: sqlite3.Connection = sqlite3.connect(":memory:")
-with suppress(sqlite3.OperationalError):   # Exception ignored automatically
-    with closing(connection):   # Commit, Rollback and Close Automatically
+with suppress(sqlite3.OperationalError):  # Exception ignored automatically
+    with closing(connection):  # Commit, Rollback and Close Automatically
         connection.execute("select * from Person")
 
 
@@ -1057,7 +1107,7 @@ from pathlib import Path
 ## Attributes
 
 example_file = Path("/data/example/main.py")
-print(example_file.parent) # => "/data/example" on Windows, /data/example on Unix
+print(example_file.parent)  # => "/data/example" on Windows, /data/example on Unix
 assert example_file.name == "main.py"
 assert example_file.stem == "main"
 assert example_file.suffix == ".py"
@@ -1115,12 +1165,13 @@ itertools.filterfalse   # Equivalent to filter but condition is negated
 itertools.product       # Cartesian product
 itertools.permutations  # Permutations
 itertools.combinations  # Combinations
-itertools.combinations_with_replacement # Combinations with replacement
+itertools.combinations_with_replacement  # Combinations with replacement
 
 # Featured recipes
 # Reference: https://docs.python.org/3/library/itertools.html#itertools-recipes
 
 from typing import Iterable, Any
+
 
 def pairwise(iterable: Iterable[Any]) -> Iterator[Tuple[Any, Any]]:
     "s -> (s0, s1), (s1, s2), (s2, s3), ..."
@@ -1147,7 +1198,6 @@ def roundrobin(*iterables: List[Iterable[Any]]) -> Generator[Any, None, None]:
         except StopIteration:
             num_active -= 1
             nexts = itertools.cycle(itertools.islice(nexts, num_active))
-
 
 
 ####################################################
@@ -1178,30 +1228,31 @@ import pickle
 from dataclasses import dataclass
 from collections import Counter
 
+
 @dataclass
 class Student:
     name: str = ""
 
+
 data = {
-    'a': [1, 2.0, 3, 4+6j],
-    'b': ("character string", b"byte string"),
-    'c': {None, True, False},
-    'd': [Student(), Student("Mary"), Student("John")],
-    'e': Counter(a=10, b=4, c=2)
+    "a": [1, 2.0, 3, 4 + 6j],
+    "b": ("character string", b"byte string"),
+    "c": {None, True, False},
+    "d": [Student(), Student("Mary"), Student("John")],
+    "e": Counter(a=10, b=4, c=2),
 }
 
-data_file = Path('data.pickle')
+data_file = Path("data.pickle")
 
-with open(data_file, 'wb') as pickle_file:
+with open(data_file, "wb") as pickle_file:
     pickle.dump(data, pickle_file)
 
-with open(data_file, 'rb') as f:
+with open(data_file, "rb") as f:
     loaded_data = pickle.load(f)
 
 data_file.unlink()
 
 assert data == loaded_data
-
 
 
 # Using JSON
@@ -1214,17 +1265,17 @@ import json
 # dict, list, tuple, str, int, float, bool, None
 
 data = {
-    'a': [1, 2.0, 3],
-    'b': ("character string"),
-    'c': [None, True, False],
+    "a": [1, 2.0, 3],
+    "b": ("character string"),
+    "c": [None, True, False],
 }
 
-data_file = Path('data.json')
+data_file = Path("data.json")
 
-with open(data_file, 'w') as json_file:
+with open(data_file, "w") as json_file:
     json.dump(data, json_file)
 
-with open(data_file, 'r') as json_file:
+with open(data_file, "r") as json_file:
     loaded_data = json.load(json_file)
 
 data_file.unlink()
@@ -1251,18 +1302,18 @@ def send_email(email: str, subject: str, content: str = "", file: Optional[str] 
 
     mime = MIMEMultipart() 
     
-    mime['Subject'] = subject
-    mime['From'] = 'Email Sent Automatically with Python'
-    mime['To'] = email
+    mime["Subject"] = subject
+    mime["From"] = "Email Sent Automatically with Python"
+    mime["To"] = email
   
-    mime.attach(MIMEText(content, 'plain')) 
+    mime.attach(MIMEText(content, "plain"))
     
     if file is not None:
-        base = MIMEBase('application', 'octet-stream')
+        base = MIMEBase("application", "octet-stream")
         file_bytes = Path(file).read_bytes()
         base.set_payload(file_bytes) 
         encoders.encode_base64(base) 
-        base.add_header('Content-Disposition', f"attachment; filename={file}") 
+        base.add_header("Content-Disposition", f"attachment; filename={file}")
         mime.attach(base) 
 
     server_url = os.environ["email_server"]

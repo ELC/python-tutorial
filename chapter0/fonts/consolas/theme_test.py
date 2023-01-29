@@ -4,7 +4,8 @@ a_variable = 100
 hex(10)
 int("0xa", 16)
 
-def multiply(x: float, y: float) -> float: # Comment
+
+def multiply(x: float, y: float) -> float:  # Comment
     return x * y
 
 
@@ -22,6 +23,7 @@ ages = [60, 15, 84]
 for name, age in zip(names, ages):
     print(f"{name} is {age} years old")
 
+
 class Rectangle:
     def __init__(self, base: float, height: float) -> None:
         self.base: float = base
@@ -29,6 +31,7 @@ class Rectangle:
 
     def area(self) -> float:
         return self.base * self.height
+
 
 rec = Rectangle(10, 10)
 rec.base

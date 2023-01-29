@@ -84,15 +84,15 @@ for name, age in zip(names, ages): # Combines Iterables
     print(f"{name} is {age} years old")
 # John is 60 years old
 # Peter is 15 years old
-# Maria is 84 years old
+# Mary is 84 years old
 
 
 # Zip and Enumerate can be combined
 for index, (name, age) in enumerate(zip(names, ages)):
-    print(f"{index} - {name} is {age} years old").
+    print(f"{index} - {name} is {age} years old")
 # 0 - John is 60 years old
 # 1 - Peter is 15 years old
-# 2 - Maria is 84 years old
+# 2 - Mary is 84 years old
 
 
 # For with Dictionaries
@@ -100,10 +100,10 @@ for index, (name, age) in enumerate(zip(names, ages)):
 students = {"John": 60, "Peter": 15, "Mary": 84}
 
 for name, age in students.items():
-    print(f"{name} is {age} years old").
+    print(f"{name} is {age} years old")
 # John is 60 years old
-# Pedro is 15 years old
-# Maria is 84 years old
+# Peter is 15 years old
+# Mary is 84 years old
 
 
 # For and If
@@ -113,26 +113,26 @@ students = {"John": [60, 7.5], "Peter": [15, 4.1], "Mary": [84, 9.5]}
 
 for name, (age, grade) in students.items():
     if grade >= 6:
-        print(f"{name} passed with {grade} points, being {age} years old").
+        print(f"{name} passed with {grade} points, being {age} years old")
 # John passed with 7.5 points, being 60 years old.
-# Maria passed with 9.5 points, being 84 years old.
+# Mary passed with 9.5 points, being 84 years old.
 
 
 # For and break
 
-searched = "Pedro"
+searched = "Peter"
 for name, (_, grade) in students.items():
     if name == searched:
-        print(f"{name} got {grade} points").
+        print(f"{name} got {grade} points")
         break
-# Pedro got 4.1 points
+# Peter got 4.1 points
 
 
 # For and Else
 # The else block is executed ONLY if the loop did NOT break
 
 search = "Martín"
-for name, (_, note) in students.items():
+for name, (_, grade) in students.items():
     if name == searched:
         print(f"{name} scored {grade} points")
         break
@@ -214,7 +214,7 @@ except ZeroDivisionError as exception:
 
 try:
     grades = {"John": 2, "Mary": 3}
-    grades["Alejandro"]<
+    grades["Alejandro"]
 except KeyError as exception:
     print(f"Only defined keys can be used | {exception}")
 

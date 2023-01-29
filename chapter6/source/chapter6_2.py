@@ -1,13 +1,14 @@
 # How to execute the file (while standing inside the chapter6 folder):
 # $PATH$/chapter6> python -m source.chapter6_2
 
-# => This message will be executed before the imports of this module. 
+# => This message will be executed before the imports of this module.
 
 ####################################################
 ## 6.4 Importing from a parent from a child directory
 ####################################################
 
 import main
+
 # => I was invoked directly or indirectly
 # => I was invoked indirectly (via an import)
 # => You successfully imported main.py
@@ -17,6 +18,7 @@ import main
 ####################################################
 
 import config.test_config as test_config
+
 # => You successfully imported test_config.py
 
 
@@ -25,6 +27,7 @@ import config.test_config as test_config
 ####################################################
 
 import config.db_config.migrations as migrations
+
 # => Successfully imported migrations.py
 
 

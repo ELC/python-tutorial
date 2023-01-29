@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
 if __name__ != "__main__":
     print("I was invoked indirectly (via an import)")
-    
+
     from pathlib import Path
 
     print(f"You successfully imported {Path(__file__).parts[-1]}")

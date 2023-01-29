@@ -4,11 +4,13 @@
 
 # Import the whole module with name
 import math
+
 math.sqrt(16)  # => 4.0
 
 
 # Import specific members (submodules, variables, functions) only
 from math import ceil, floor
+
 ceil(3.7)      # => 4.0
 floor(3.7)     # => 3.0
 

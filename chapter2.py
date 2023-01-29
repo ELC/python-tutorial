@@ -151,7 +151,7 @@ dictionary                 # {'one': 1, 'two': 2, 'three': 3, 'four': None, 'fiv
 # Keys and values could be Heterogeneous
 multiple = {
     "one": 1,
-    2: 'two',
+    2: "two",
     (1, 3): [1, 5],
 }
 

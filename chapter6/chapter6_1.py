@@ -11,12 +11,13 @@
 
 
 import main
+
 # => I was invoked directly or indirectly.
 # => I was invoked indirectly (via an import)
 # => You successfully imported main.py
 
-print(f'The value of {main.name=}') # => The value of main.name='main'
-main.__doc__ # => This is the main module of the application (Docstring)
+print(f"The value of {main.name=}")  # => The value of main.name='main'
+main.__doc__  # => This is the main module of the application (Docstring)
 
 
 ####################################################
@@ -24,6 +25,7 @@ main.__doc__ # => This is the main module of the application (Docstring)
 ####################################################
 
 from source import items
+
 # => This message will be executed before the imports of this module
 
 items  # => {'sheet': 10.25, 'speaker': 5.258, 'computer': 350.159, 
@@ -31,9 +33,10 @@ items  # => {'sheet': 10.25, 'speaker': 5.258, 'computer': 350.159,
 
 
 import source.util as util
+
 # => Successfully imported util.py
 
-print(f'The value of {util.name=}') # => The value of util.name='util'.
+print(f"The value of {util.name=}")  # => The value of util.name='util'.
 
 
 ####################################################
@@ -42,6 +45,7 @@ print(f'The value of {util.name=}') # => The value of util.name='util'.
 
 
 import source.controller.controller as controller
+
 # => You successfully imported controller.py
 
 print(f'The value of {controller.name=}') # => The value of controller.name='controller'

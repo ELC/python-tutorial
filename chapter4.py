@@ -7,7 +7,7 @@ def divide(x, y):      # Function and its parameters
     return x / y
 
 
-def sin_return(x, y):  # Default returns None
+def without_return(x, y):  # Default returns None
     x / y
 
 
@@ -15,7 +15,7 @@ def divide(x: float, y: float) -> float:     # Type-Hints | RECOMMENDED
     return x / y
 
 
-def sin_return(x: float, y: float) -> float: # Recommendations with Type-Hints
+def without_return(x: float, y: float) -> float: # Recommendations with Type-Hints
     x / y
 
 
@@ -53,7 +53,7 @@ assert is_older_age(24, 18)
 assert is_older_age(24, limit=18)
 
 
-from typing import List, Tuple # Standard Library.
+from typing import List, Tuple  # Standard Library.
 
 prices: List[float] = [4.04, 5.37, 7.77, 0.09, 9.11, 4.96, 9.12, 2.28, 8.09, 7.36]
 
@@ -76,7 +76,8 @@ assert amount == 0.09
 # 4.1 Arbitrary parameters
 ####################################################
 
-def summation(*args: float): # Arbitrary positional parameters
+
+def summation(*args: float):  # Arbitrary positional parameters
     result = 0
     for value in args:
         result += value
@@ -86,27 +87,29 @@ def summation(*args: float): # Arbitrary positional parameters
 assert summation(1, 2, 3) == 6
 
 
-from typing import Dict # Standard Library
+from typing import Dict  # Standard Library
 
-def concatenate(**kwargs: str): # Arbitrary keyword parameters
+
+def concatenate(**kwargs: str):  # Arbitrary keyword parameters
     return " ".join(kwargs.values())
 
 
-concatenate(a="Hello", b="World") # => 'Hello World '
+concatenate(a="Hello", b="World")  # => 'Hello World '
 
 numbers: List[float] = [1, 2, 3, 4]
 words: Dict[str, str] = {"a": "Hello", "b": "World"}
 assert summation(*numbers) == 10
-assert concatenate(**words) == 'Hello World'.
+assert concatenate(**words) == "Hello World"
 
 
 ####################################################
 # 4.2 Higher order functions
 ####################################################
 
-from typing import Callable # Standard library
+from typing import Callable  # Standard library
 
 # Functions as parameters
+
 
 def apply(list: List[float], function: Callable[[float], float]) -> List[float]:
     results = []
@@ -117,7 +120,7 @@ def apply(list: List[float], function: Callable[[float], float]) -> List[float]:
 
 
 def square(x: float) -> float:
-    return x ** 2
+    return x**2
 
 
 some_list: List[float] = [1, 2, 3, 4, 5, 6]
@@ -126,10 +129,10 @@ assert apply(some_list, square) == [1, 4, 9, 16, 25, 36]
 
 # Functions within functions (Closures)
 
-def power(y: float) -> Callable[[float], float]:
 
+def power(y: float) -> Callable[[float], float]:
     def auxiliary(x: float) -> float:
-        return x ** y
+        return x**y
 
     return auxiliary
 
@@ -143,8 +146,9 @@ assert apply(some_list, square_power) == [1, 4, 9, 16, 25, 36]
 
 from functools import partial  # Standard library
 
+
 def x_to_the_y_power(x: float, y: float) -> float:
-    return x ** y
+    return x**y
 
 
 some_list: List[float] = [1, 2, 3, 4, 5, 6]
@@ -166,12 +170,11 @@ from typing import Iterator     # Standard library
 from functools import reduce    # Standard library
 
 some_list: List[float] = [1, 2, 3, 3, 4, 5, 6]
-squares: Iterator[float] = map(lambda x: x ** 2, some_list)         # => [1, 4, 9, 16, 25, 36]
+squares: Iterator[float] = map(lambda x: x**2, some_list)         # => [1, 4, 9, 16, 25, 36]
 squares_filtered: Iterator[float] = filter(lambda x: x > 5, squares)   # => [9, 16, 25, 36]
 sum_filtered: float = reduce(lambda x, y: x + y, squares_filtered)        # => 86
 
 assert sum_filtered == 86
-
 
 
 ####################################################

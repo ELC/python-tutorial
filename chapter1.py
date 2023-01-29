@@ -18,9 +18,9 @@
 1 + 1       # => 2
 8 - 1       # => 7
 10 * 2      # => 20
-5 ** 2      # => 25   Power
+5**2      # => 25   Power
 pow(5, 2)   # => 25   Power
-25 ** 0.5   # => 5    Root with Fractional Power
+25**0.5   # => 5    Root with Fractional Power
 35 / 5      # => 7.0  Division (returns float)
 35 / 0      # =>      Error
 34 // 5     # => 6    Integer division (truncates the quotient)
@@ -86,7 +86,7 @@ False or False or 1 / 0    # => Error
 ####################################################
 
 # Strings are created with ", ', """" or '''
-'This is a string."
+"This is a string."
 'This is also a string.'
 
 """Strings with triple 

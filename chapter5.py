@@ -18,6 +18,7 @@ class Rectangle:
     def area(self) -> float:
         return self.base * self.height
 
+
 rec = Rectangle(10, 10)
 rec.base     # => 10
 rec.height   # => 10
@@ -66,7 +67,6 @@ art3.id_     # => 3
 
 
 class Temperature:
-
     def __init__(self, region: str, temperature: float) -> None:
         self.region = region
         self.temperature = temperature
@@ -97,6 +97,7 @@ from typing import ClassVar
 from dataclasses import dataclass, field
 import uuid
 
+
 class Person:
     _personal_id: int = 0
 
@@ -117,10 +118,10 @@ class Person:
         return cls._personal_id
 
 
-juan: Person = Person("Juan", 18, 175.9)
-juan.is_old_enough()  # => True
+john: Person = Person("John", 18, 175.9)
+john.is_old_enough()  # => True
 Person("Julia", 16, 162.4).is_old_enough()  # => False
-print(juan)  # => <__main__.Persona object at 0x000001C90BBF8688>
+print(john)  # => <__main__.Persona object at 0x000001C90BBF8688>
 
 
 @dataclass
@@ -148,10 +149,10 @@ class PersonDataClass:
         return cls._personal_id
 
 
-pedro: PersonDataClass = PersonDataClass("Pedro", 18, "H", 85, 175.9)
-pedro.is_old_enough()  # => True
+peter: PersonDataClass = PersonDataClass("Peter", 18, "H", 85, 175.9)
+peter.is_old_enough()  # => True
 PersonDataClass("Julia", 16, "M", 65, 162.4).is_old_enough()  # => False
-print(pedro) # => PersonaDataClass(name='Pedro', age=18, gender='H', weight=85, height=175.9, properties=[], member_id='P-f642581c', dni='00000001')
+print(peter) # => PersonaDataClass(name='Peter', age=18, gender='H', weight=85, height=175.9, properties=[], member_id='P-f642581c', dni='00000001')
 
 ####################################################
 # 5.5 Operator Overloading
@@ -161,6 +162,7 @@ print(pedro) # => PersonaDataClass(name='Pedro', age=18, gender='H', weight=85, 
 # Reference: https://docs.python.org/3/reference/datamodel.html#basic-customization
 
 from typing import List, Optional  
+
 
 @dataclass
 class Article:
@@ -263,6 +265,7 @@ accumulator_1.increment(-2)
 
 assert accumulator_1.value == 13 
 
+
 @dataclass
 class AccumulatorAlternative:
     initial_value: Union[int, float] = 0
@@ -289,6 +292,7 @@ assert accumulator_2.value == 13
 
 # Reference: https://docs.python.org/3/library/copy.html
 
+
 @dataclass
 class Product:
     _name: str
@@ -311,7 +315,8 @@ class Product:
         self._price = value
 
 
-from copy import deepcopy           # Standard Library
+from copy import deepcopy  # Standard Library
+
 
 def update_price(products: List[Product], percentage_increase: float) -> List[Product]:
     new: List[Product] = []
@@ -324,17 +329,15 @@ def update_price(products: List[Product], percentage_increase: float) -> List[Pr
 names = ["sheet", "speaker", "computer", "cup", "bottle", "cellular"]
 prices = [10.25, 5.258, 350.159, 25.99, 18.759, 215.231]
 
-products = [
-    Product(name, price)  for name, price in zip(names, prices)
-]
+products = [Product(name, price) for name, price in zip(names, prices)]
 percentage_increase = 10
 
 updated_products: List[Product] = update_price(products, percentage_increase)
 out_of_date_prices: List[float] = [product.price for product in products]
 updated_prices: List[float] = [product.price for product in updated_products]
 
-print(out_of_date_prices) # => [10.25, 5.26, 350.16, 25.99, 18.76, 215.23]
-print(updated_prices) # => [11.28, 5.79, 385.18, 28.59, 20.64, 236.75]
+print(out_of_date_prices)  # => [10.25, 5.26, 350.16, 25.99, 18.76, 215.23]
+print(updated_prices)  # => [11.28, 5.79, 385.18, 28.59, 20.64, 236.75]
 
 
 ####################################################
@@ -343,7 +346,7 @@ print(updated_prices) # => [11.28, 5.79, 385.18, 28.59, 20.64, 236.75]
 
 
 @dataclass
-class Animal():
+class Animal:
     age: int = 0
 
     def description(self) -> str:
@@ -357,11 +360,12 @@ class Dog(Animal):
     def description(self) -> str:
         return f"I'm a dog and {super().description().lower()}"
 
+
 terrier = Dog(8, "Yorkshire Terrier")
 dogo = Dog(breed="Dogo")
 puppy = Dog(age=1)
 
-print(terrier.description()) # => I am a dog and I am 8 years old.
+print(terrier.description())  # => I am a dog and I am 8 years old.
 
 
 ####################################################
@@ -417,6 +421,7 @@ assert isinstance(famous_car, LuxuryCar)
 from abc import ABC, abstractmethod
 from typing import final  # Python 3.8+
 
+
 @dataclass
 class Item(ABC):
     _id: ClassVar[int]
@@ -449,9 +454,11 @@ class Item(ABC):
     def description(self) -> str:
         return f"ID: {self.id_} - Name: {self.name}"
 
+
 @dataclass
 class Clothing(Item):
     ...
+
 
 @dataclass
 class Material(Item):
@@ -475,11 +482,11 @@ class Material(Item):
     def show_id(self) -> str:
         return str(self.id_).zfill(10)
 
+
 @dataclass
 class LuxuryMaterial(Material):
-
     def description(self) -> str:
-        return f'{super().description()} - Luxurious Material'
+        return f"{super().description()} - Luxurious Material"
 
 
 # item = Item("Item")                      # => Error
@@ -488,7 +495,7 @@ luxury_item = LuxuryMaterial("Formula 1")  # => No Error - Warning in the declar
 print(luxury_item.description())
 
 item = Material("Wood")
-print(item) # => Material(id_=1, _name='Wood')
+print(item)  # => Material(id_=1, _name='Wood')
 
 assert issubclass(type(item), Item)
 assert issubclass(type(item), Material)
@@ -520,7 +527,7 @@ def get_data_summary(element: Identifiable):
 
 wood = Material("Wood")
 
-summary = get_data_summary(wood)   # No Warning of Types.
+summary = get_data_summary(wood)  # No Warning of Types.
                                    # Even if Material does not inherit from Identifiable
                                    # Even if id_ is not a property
                                    # Even if
@@ -533,20 +540,24 @@ summary = get_data_summary(wood)   # No Warning of Types.
 
 from typing import overload, Sequence
 
+
 @overload
 def duplicate(x: int) -> int:
     ...
 
+
 @overload
 def duplicate(x: Sequence[int]) -> list[int]:
     ...
+
 
 def duplicate(x: int | Sequence[int]) -> int | list[int]:
     if isinstance(x, Sequence):
         return [i * 2 for i in x]
     return x * 2
 
-assert duplicate(2) == 4                  # No Warning
+
+assert duplicate(2) == 4  # No Warning
 assert duplicate([1, 2, 3]) == [2, 4, 6]  # No Warning
 
 
@@ -556,6 +567,7 @@ assert duplicate([1, 2, 3]) == [2, 4, 6]  # No Warning
 
 
 from typing import Union
+
 
 @dataclass
 class Employee:
@@ -571,7 +583,8 @@ class Employee:
 cleanning_staff_1 = Employee(10_000)
 
 
-from functools import singledispatchmethod   # Standard Library
+from functools import singledispatchmethod  # Standard Library
+
 
 @dataclass
 class EmployeeAlternate:
@@ -580,7 +593,6 @@ class EmployeeAlternate:
     @singledispatchmethod
     def calculate_salary(self, tax: float) -> float:
         raise NotImplementedError()
-
 
     @calculate_salary.register
     def _(self, tax: float) -> float:
@@ -610,7 +622,6 @@ from typing import Any
 
 
 class JsonSerializer:
-
     def to_json(self) -> str:
         return json.dumps(vars(self))
 
@@ -634,7 +645,6 @@ assert cleanning_staff_2.to_json() == '{"salary": 10000, "table": "Employees"}'
 
 
 class Positive:
-
     def __set_name__(self, _: Any, name: str) -> None:
         self.attribute_name: str = f"_{name}"
 
@@ -649,7 +659,6 @@ class Positive:
 
 
 class Celcius:
-
     def __get__(self, instance: Any, _: Any = None) -> float:
         return (instance.farenheit - 32) * 5 / 9
 
@@ -666,11 +675,9 @@ class ExperimentalMaterial:
 reinforced_concrete = ExperimentalMaterial(mass=50, temperature=100)
 assert reinforced_concrete.mass == 50
 assert reinforced_concrete.temperature == 100
-assert reinforced_concrete.farenheit == 212 # Warning but no Error
+assert reinforced_concrete.farenheit == 212  # Warning but no Error
 
 reinforced_concrete.temperature = 50
 assert reinforced_concrete.temperature == 50
 assert reinforced_concrete.farenheit == 122
-#oxygen = MaterialExperiment(mass=-21, -30) # Error -> ValueError: _mass must be positive
-
-
+# oxygen = MaterialExperiment(mass=-21, -30) # Error -> ValueError: _mass must be positive
