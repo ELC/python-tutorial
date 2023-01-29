@@ -18,11 +18,11 @@
 1 + 1       # => 2
 8 - 1       # => 7
 10 * 2      # => 20
-5**2      # => 25   Power
+5**2        # => 25   Power
 pow(5, 2)   # => 25   Power
-25**0.5   # => 5    Root with Fractional Power
+25**0.5     # => 5    Root with Fractional Power
 35 / 5      # => 7.0  Division (returns float)
-35 / 0      # =>      Error
+# 35 / 0    # =>      Error
 34 // 5     # => 6    Integer division (truncates the quotient)
 35 % 6      # => 5    Modulo operator (remainder)
 3 * 2.0     # => 6.0  If one of the operands is float, result is float
@@ -56,9 +56,9 @@ False or False    # => False
 
 # Default Short Circuit
 True and False and 1 / 0   # => False
-True and True and 1 / 0    # => Error
+# True and True and 1 / 0  # => Error
 False or True or 1 / 0     # => True
-False or False or 1 / 0    # => Error
+# False or False or 1 / 0  # => Error
 
 
 ####################################################

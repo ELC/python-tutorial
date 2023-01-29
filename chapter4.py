@@ -169,7 +169,7 @@ assert apply(some_list, lambda x: x**2) == [1, 4, 9, 16, 25, 36]
 from typing import Iterator     # Standard library
 from functools import reduce    # Standard library
 
-some_list: List[float] = [1, 2, 3, 3, 4, 5, 6]
+some_list: List[float] = [1, 2, 3, 4, 5, 6]
 squares: Iterator[float] = map(lambda x: x**2, some_list)         # => [1, 4, 9, 16, 25, 36]
 squares_filtered: Iterator[float] = filter(lambda x: x > 5, squares)   # => [9, 16, 25, 36]
 sum_filtered: float = reduce(lambda x, y: x + y, squares_filtered)        # => 86

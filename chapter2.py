@@ -9,7 +9,7 @@ print("I'm Python. Nice to meet you.")
 a_variable = 5           # The convention is to use lowercase underscores (snake_case).
 one_variable: float = 5  # Optional type-hints | RECOMMENDED
 one_variable             # => 5
-other_variable           # Error unassigned variable
+# other_variable         # Error unassigned variable
 
 # Operators with re-assignment
 one_variable += 2        # one_variable == 7
@@ -43,7 +43,7 @@ len(some_list)                    # 4
 # Simple indexing
 some_list[0]       # => 1 First element
 some_list[-1]      # => 4 Last element
-some_list[4]       # Error - Out of bounds
+# some_list[4]     # Error - Out of bounds
 
 # Slicing list[start:end:step]
 some_list[1:3]     # => [2, 4]
@@ -88,7 +88,7 @@ all(some_list)  # => True | Returns True if all the elements are True
 some_tuple = (1, 2, 3)  # They are defined with (,) instead of []
 some_tuple = 1, 2, 3    # Parentheses are optional
 some_tuple[0]           # => 1
-some_tuple[0] = 3       # TypeError
+# some_tuple[0] = 3     # TypeError
 
 # Methods identical to lists but without assignment
 len(some_tuple)         # => 3
@@ -104,7 +104,7 @@ some_tuple[:2]          # => (1, 2)
 # Simple unpacking
 a, b, c = (1, 2, 3)         # a == 1, b == 2, c == 3
 a, b, c = [1, 2, 3]         # a == 1, b == 2, c == 3
-a, b = [1, 2, 3]            # Error | Number of elements must be identical
+# a, b = [1, 2, 3]          # Error | Number of elements must be identical
 a, b = b, a                 # Exchange a == 2, b == 1
 
 # Unpacking With wildcards
@@ -127,7 +127,7 @@ dictionary = {
     "three": 3,            # Comma at the end valid
 }
 dictionary["one"]          # => 1 - Indexed with Keys
-dictionary["four"]         # Error
+# dictionary["four"]       # Error
 
 dictionary.get("one")      # => 1
 dictionary.get("four")     # => None instead of Error
@@ -156,7 +156,7 @@ multiple = {
 }
 
 # Keys must be inmutable (hashable)
-invalid = {[1, 2]: "1"}    # Error
+# invalid = {[1, 2]: "1"}    # Error
 
 
 ####################################################
@@ -168,7 +168,7 @@ some_set = {1, 2, 2, 2, 3, 4}  # => {1, 2, 3, 4}
 some_set.add(5)                # => {1, 2, 3, 4, 5}
 some_set.add(6)                # => {1, 2, 3, 4, 5, 6}
 some_set.discard(7)            # => {1, 2, 3, 4, 5, 6}
-some_set.remove(7)             # => Error | Remove assumes element is in set
+# some_set.remove(7)           # => Error | Remove assumes element is in set
 some_set.remove(6)             # => {1, 2, 3, 4, 5, 6}
 
 # Set Operations
