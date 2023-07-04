@@ -78,7 +78,7 @@ Topics covered:
 Topics to add:
 - [Complex numeric type](https://docs.python.org/3/library/functions.html#complex)
 - [Bytes and Bytesarray](https://docs.python.org/3/library/stdtypes.html#binary-sequence-types-bytes-bytearray-memoryview)
-- [Bitwise Operations](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types)
+
 
 ### 2. Variables and Collections
 

@@ -190,3 +190,17 @@ chr(8364)  # => "€"
 ord("A")   # => 65
 ord("¿")   # => 191
 ord("€")   # => 8364
+
+####################################################
+# 1.8 Bitwise Operations
+####################################################
+
+~10      # NOT         => not 1010    = -1011  = -11
+10 & 9   # AND         => 1010 * 1001 =  1000  =   8
+10 | 9   # OR          => 1010 + 1001 =  1011  =  11
+10 ^ 9   # XOR         => 1010 ^ 1001 =  0011  =   3
+10 >> 1  # Right Shift => 1010 >> 1   =   101  =   5
+10 << 1  # Left Shift  => 1010 << 1   = 10100  =  20
+
+# More on Bit Operations on Anurag Verma's post:
+# https://www.anurag629.club/posts/the-power-of-bit-manipulation-how-to-solve-problems-efficiently
