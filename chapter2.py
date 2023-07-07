@@ -85,16 +85,21 @@ all(some_list)  # => True | Returns True if all the elements are True
 # 2.2 Tuples, immutable collections
 ####################################################
 
-some_tuple = (1, 2, 3)  # They are defined with (,) instead of []
-some_tuple = 1, 2, 3    # Parentheses are optional
-some_tuple[0]           # => 1
-# some_tuple[0] = 3     # TypeError
+empty_tuple = tuple()     # Constructed with the tuple function
+
+some_tuple = (1, 2, 3)    # They are defined with (,) instead of []
+some_tuple = 1, 2, 3      # Parentheses are optional
+some_tuple[0]             # => 1
+# some_tuple[0] = 3       # TypeError
+
+one_element_tuple = (3,)  # Comma is mandatory
+one_element_tuple = 3,    # Parentheses are optional
 
 # Methods identical to lists but without assignment
-len(some_tuple)         # => 3
-some_tuple + (4, 5, 6)  # => (1, 2, 3, 4, 5, 6)
-some_tuple[:2]          # => (1, 2)
-2 in some_tuple         # => True
+len(some_tuple)           # => 3
+some_tuple + (4, 5, 6)    # => (1, 2, 3, 4, 5, 6)
+some_tuple[:2]            # => (1, 2)
+2 in some_tuple           # => True
 
 
 ####################################################
@@ -220,3 +225,69 @@ some_set.isdisjoint(other_set)             # => False
 
 some_set.intersection(extra_set) == set() # => True
 some_set.isdisjoint(extra_set)            # => True
+
+####################################################
+# 2.5 Frozensets | Sets but immutable
+####################################################
+
+empty_frozenset = frozenset()
+
+some_frozenset = frozenset({1, 2, 3})    # Can be created from a set
+some_frozenset = frozenset([1, 2, 3])    # Or any other iterable
+# some_frozenset.add(3)                  # AttributeError
+
+# Methods identical to sets but without assignment
+some_frozenset = frozenset({1, 2, 3, 4, 5, 6})
+other_set = {3, 4, 5, 6}
+other_frozenset = frozenset({3, 4, 5, 6})
+
+len(some_frozenset)               # => 6
+some_frozenset | other_set        # => frozenset({1, 2, 3, 4, 5, 6})
+some_frozenset | other_frozenset  # => frozenset({1, 2, 3, 4, 5, 6})
+2 in some_frozenset               # => True
+
+
+####################################################
+# 2.6 Recursive Collections
+####################################################
+
+"""
+Although it is not common, due to the Python having mutuable and being
+(call-by-sharing)[https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_sharing],
+it is possible to have recursive data structure, that is, data structures that
+contain themselves.
+
+This could be seen in some complex object structures where composition is
+heavily used and components are tightly connected.
+"""
+
+# Recursive Lists
+a = []           # Typical Empty list
+a.append(a)      # Addind the list to itself - a => [[...]]         
+a == a           # A list is equal to itself
+a == a[0]        # A list is equal to its first argument
+a == a[0][0]     # A list is equal to the first argument of its first argument
+a == a[0][0][0]  # And so on..
+
+
+# Same applies with dictionaries
+a = {}
+a["a"] = a
+a == a
+a == a["a"]
+a == a["a"]["a"]
+a == a["a"]["a"]["a"]
+
+
+# Data Structures could be mutually nested
+b = {}
+a = [b]
+b["a"] = a
+
+a == a
+a[0] == b
+a[0]['a'] == a
+
+b == b
+b['a'] == a
+b['a'][0] == b

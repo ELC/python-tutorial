@@ -74,6 +74,7 @@ Topics covered:
 - Non-boolean Values interpreted as Booleans
 - Numeric base conversions
 - String conversions to Unicode
+- Bitwise Operations
 
 Topics to add:
 - [Complex numeric type](https://docs.python.org/3/library/functions.html#complex)
@@ -89,10 +90,9 @@ Topics covered:
 - Unpacking
 - Dictionaries - Key-Value Collections
 - Sets | Collections without duplicates
-
-Topics to add:
-- [Fronzenset](https://docs.python.org/3/library/stdtypes.html#frozenset)
+- Frozensets | Sets but immutable
 - Recursive Collections
+
 
 ### 3. Control Flow
 
